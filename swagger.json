@@ -1,0 +1,253 @@
+{
+	"openapi": "3.0.1",
+	"info": {
+		"title": "Person API",
+		"description": "API para gestionar la creación y obtención de personas.",
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "https://3jln4l39kf.execute-api.us-east-1.amazonaws.com/Prod",
+			"description": "Servidor de producción"
+		}
+	],
+	"paths": {
+		"/v1/api/person": {
+			"post": {
+				"summary": "Crear una nueva persona",
+				"description": "Endpoint para crear una nueva persona con los detalles especificados.",
+				"operationId": "createPerson",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"altura": {
+										"type": "string",
+										"example": "186"
+									},
+									"color_cabello": {
+										"type": "string",
+										"example": "negro"
+									},
+									"color_ojos": {
+										"type": "string",
+										"example": "marrones"
+									},
+									"color_piel": {
+										"type": "string",
+										"example": "claro"
+									},
+									"nombre": {
+										"type": "string",
+										"example": "Maycol Zambrano"
+									},
+									"fecha_nacimiento": {
+										"type": "string",
+										"example": "19BBY"
+									},
+									"genero": {
+										"type": "string",
+										"example": "masculino"
+									},
+									"peso": {
+										"type": "string",
+										"example": "99"
+									},
+									"planeta_natal": {
+										"type": "string",
+										"example": "Earth"
+									}
+								},
+								"required": [
+									"altura",
+									"color_cabello",
+									"color_ojos",
+									"color_piel",
+									"nombre",
+									"fecha_nacimiento",
+									"genero",
+									"peso",
+									"planeta_natal"
+								]
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Persona creada exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"id": {
+											"type": "string",
+											"description": "ID de la persona recién creada",
+											"example": "12345"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Solicitud inválida"
+					},
+					"500": {
+						"description": "Error del servidor"
+					}
+				}
+			}
+		},
+		"/v1/api/person/{id}": {
+			"get": {
+				"summary": "Obtener detalles de una persona",
+				"description": "Endpoint para obtener la información de una persona usando su ID.",
+				"operationId": "getPersonById",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único de la persona",
+						"schema": {
+							"type": "string",
+							"example": "eec11943-677e-4c3c-9c4e-a86e89fa252b"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Información de la persona obtenida exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"id": {
+											"type": "string",
+											"example": "eec11943-677e-4c3c-9c4e-a86e89fa252b"
+										},
+										"altura": {
+											"type": "string",
+											"example": "186"
+										},
+										"color_cabello": {
+											"type": "string",
+											"example": "negro"
+										},
+										"color_ojos": {
+											"type": "string",
+											"example": "marrones"
+										},
+										"color_piel": {
+											"type": "string",
+											"example": "claro"
+										},
+										"nombre": {
+											"type": "string",
+											"example": "Maycol Zambrano"
+										},
+										"fecha_nacimiento": {
+											"type": "string",
+											"example": "19BBY"
+										},
+										"genero": {
+											"type": "string",
+											"example": "masculino"
+										},
+										"peso": {
+											"type": "string",
+											"example": "99"
+										},
+										"planeta_natal": {
+											"type": "string",
+											"example": "Earth"
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Persona no encontrada"
+					},
+					"500": {
+						"description": "Error del servidor"
+					}
+				}
+			}
+		},
+		"/v1/api/person/all": {
+			"get": {
+				"summary": "Obtener todas las personas",
+				"description": "Endpoint para obtener la lista de todas las personas registradas.",
+				"operationId": "getAllPersons",
+				"responses": {
+					"200": {
+						"description": "Lista de personas obtenida exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"id": {
+												"type": "string",
+												"example": "eec11943-677e-4c3c-9c4e-a86e89fa252b"
+											},
+											"altura": {
+												"type": "string",
+												"example": "186"
+											},
+											"color_cabello": {
+												"type": "string",
+												"example": "negro"
+											},
+											"color_ojos": {
+												"type": "string",
+												"example": "marrones"
+											},
+											"color_piel": {
+												"type": "string",
+												"example": "claro"
+											},
+											"nombre": {
+												"type": "string",
+												"example": "Maycol Zambrano"
+											},
+											"fecha_nacimiento": {
+												"type": "string",
+												"example": "19BBY"
+											},
+											"genero": {
+												"type": "string",
+												"example": "masculino"
+											},
+											"peso": {
+												"type": "string",
+												"example": "99"
+											},
+											"planeta_natal": {
+												"type": "string",
+												"example": "Earth"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Error del servidor"
+					}
+				}
+			}
+		}
+	}
+}
