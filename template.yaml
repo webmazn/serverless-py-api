@@ -1,0 +1,96 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Serverless Project API
+
+Globals:
+  Function:
+    Timeout: 3
+    Runtime: nodejs18.x
+    Environment:
+      Variables:
+        TABLE_NAME_DB: people
+        API_SWAPI_URL: https://swapi.dev/api/people
+
+Resources:
+  Table:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: people
+
+  CreateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: create-person
+      Handler: index.createHandler
+      CodeUri: src/
+      Architectures:
+        - x86_64
+      Events:
+        Entity:
+          Type: Api
+          Properties:
+            Path: /v1/api/person
+            Method: POST
+      Policies:
+        - DynamoDBWritePolicy:
+            TableName: !Ref Table
+
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        EntryPoints:
+          - index.ts
+
+  FindFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: find-person
+      Handler: index.findHandler
+      CodeUri: src/
+      Architectures:
+        - x86_64
+      Events:
+        Entity:
+          Type: Api
+          Properties:
+            Path: /v1/api/person/{id}
+            Method: GET
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref Table
+
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        EntryPoints:
+          - index.ts
+
+  FindAllFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: find-all-persons
+      Handler: index.findAllHandler
+      CodeUri: src/
+      Architectures:
+        - x86_64
+      Events:
+        Entity:
+          Type: Api
+          Properties:
+            Path: /v1/api/person/all
+            Method: GET
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref Table
+
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        EntryPoints:
+          - index.ts
